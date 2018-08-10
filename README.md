@@ -21,8 +21,10 @@ Please, create a branch for each part.
 #### Part 1 - Purest Way
 
 In this first step, you need to create an app **WITHOUT any library**, with pure Android.
+
 **CRUD**
 - Rest API consume and persistence with local database.
+
 **Tests**
 - Local Unit Test and Remote Unit Test ( Instrumental / UI ).
   Obs: Espresso lib is allowed in this case.
@@ -30,24 +32,30 @@ In this first step, you need to create an app **WITHOUT any library**, with pure
 ----
 
 #### Part 2 - Architecture and Libraries
+
 **Architecture**
 - Apply the best architecture that fits in this project.
+
 **Libraries**
 - Replace everithing you believe that works better with libraries.
 
 ----
 
 ####  Part 3 - Advanced ( EXTRA )
+
 **Android Jetpack**
 - Foundation
 - Architecture *
 - Behavior
 - UI
 Obs: Use at least one component of Architecture Components.
+
 **Player**
 - Implement a player that plays any video streaming with DASH extension. 
+
 **Quality**
 - Apply Lint, Sonar and Test Coverage.
+
 **Continuous Integration and Continuous Delivery**
 - Use any CI and CD with a delivery flow.
 
@@ -55,11 +63,14 @@ Obs: Use at least one component of Architecture Components.
 
 ####  DELIVERY
 **Create a fork from the repository on your GitHub.**
+
 **Push the code developed in your Github.**
+
 **Create a file called COMMENTS.md explaining:**
 - Explain architecture chosen.
 - List of used libraries.
 - What would you improve if you had more time?
 - List of delivered,not delivered and why.
+
 **Inform the recruiter replying the e-mail when you've completed the challenge along with the repository link.**
 
