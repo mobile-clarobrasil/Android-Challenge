@@ -13,7 +13,7 @@ This challenge consists in three parts.
 Please, create a branch for each part.
 
 ##### WARNING !!!
-###### The objective isn't to complete everything, is just to use your best to reach as long as you can.
+###### The objective isn't to complete everything, is just to do your best to reach as long as you can.
 ###### You can use everything that you want, API, Library, Architecture, Patterns and so-on.
 
 ----
