@@ -18,8 +18,7 @@ Please, create a branch for each part.
 
 ----
 
-### Part 1
-###  Purest Way:
+### Part 1: Purest Way:
 
 In this first step, you need to create an app **WITHOUT any library**, with pure Android.
 
@@ -32,8 +31,7 @@ In this first step, you need to create an app **WITHOUT any library**, with pure
 
 ----
 
-### Part 2
-### Architecture and Libraries:
+### Part 2: Architecture and Libraries:
 
 **Architecture**
 - Apply the best architecture that fits in this project.
@@ -43,8 +41,7 @@ In this first step, you need to create an app **WITHOUT any library**, with pure
 
 ----
 
-###  Part 3
-###  Advanced ( EXTRA )
+###  Part 3: Advanced ( EXTRA )
 
 **Android Jetpack**
 - Foundation
@@ -64,7 +61,7 @@ Obs: Use at least one component of Architecture Components.
 
 ----
 
-###  DELIVERY
+###  DELIVERY:
 
 **Create a fork from the repository on your GitHub.**
 
