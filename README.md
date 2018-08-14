@@ -15,12 +15,13 @@ Please, create a branch for each part.
 ##### WARNING !!!
 ###### The objective isn't to complete everything, is just to do your best to reach as long as you can.
 ###### You can use everything that you want, API, Library, Architecture, Patterns and so-on.
+#### No reuse or copying of existing codes is allowed. Please create a new repository and start the project from scratch.
 
 ----
 
 ### Part 1: Purest Way
 
-In this first step, you need to create an app **WITHOUT any library**, with pure Android.
+In this first step, you need to create a new app **WITHOUT any library**, with pure Android.
 
 **CRUD**
 - Rest API consume and persistence with local database.
