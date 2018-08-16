@@ -2,39 +2,48 @@ package com.example.henry.forkit.ui.meals
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import com.example.henry.forkit.R
 import com.example.henry.forkit.domain.Meal
-import com.example.henry.forkit.interfaces.AsyncHttpRequest
+import com.example.henry.forkit.presentation.MealController
+import com.example.henry.forkit.presentation.MealPresenter
+import com.example.henry.forkit.ui.favorites.FavoritesFragment
+import kotlinx.android.synthetic.main.activity_meals.*
 
-class MealActivity: AppCompatActivity() {
-    private val mealListAdapter: MealListAdapter by lazy { MealListAdapter() }
+class MealActivity: AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meals)
-        setupList()
-        loadData()
+        openFragment(MealsFragment().newInstance())
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
     }
 
-    private fun setupList(){
-        val mealList = findViewById<RecyclerView>(R.id.meal_list)
-        loadData()
-        val layoutManager = LinearLayoutManager(this)
-        mealList.layoutManager = layoutManager
-        mealList.adapter = mealListAdapter
-        mealList.setHasFixedSize(true)
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var fragment: Fragment? = null
+        when(item.itemId){
+            R.id.bottom_navigation_search -> fragment = MealsFragment().newInstance()
+            R.id.bottom_navigation_favorites -> fragment = FavoritesFragment().newInstance()
+        }
+        if(fragment != null)
+            openFragment(fragment)
+        return true
     }
 
-    private fun updateDataset(dataset: MutableList<Meal>){
-        mealListAdapter.update(dataset)
+    private fun openFragment(fragment: Fragment){
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit()
     }
-
-    private fun loadData(){
-        val url = "https://www.themealdb.com/api/json/v1/1/search.php?s=Pork"
-        val data = AsyncHttpRequest().execute(url).get()
-        updateDataset(data)
-    }
-
-
 }
