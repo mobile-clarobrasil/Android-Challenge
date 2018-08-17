@@ -6,32 +6,30 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import com.example.henry.forkit.R
-import com.example.henry.forkit.domain.Meal
+import com.example.henry.forkit.data.entity.Meal
 import com.example.henry.forkit.interfaces.ListItemHandler
-import com.example.henry.forkit.presentation.MealController
+import com.example.henry.forkit.presentation.RetrieveDataController
 import com.example.henry.forkit.presentation.MealPresenter
 import com.example.henry.forkit.ui.mealdetails.MealDetailsActivity
 import kotlinx.android.synthetic.main.meals_fragment.*
 
-class MealsFragment: Fragment(), MealController, ListItemHandler{
+class MealsFragment: Fragment(), RetrieveDataController, ListItemHandler{
 
     private val mealListAdapter: MealListAdapter by lazy { MealListAdapter(this) }
     private var mealRecyclerView: RecyclerView? = null
-    private val mealPresenter: MealPresenter by lazy { MealPresenter(this) }
+    private val mealPresenter: MealPresenter by lazy { MealPresenter(context, this) }
     private var searchMealEt: EditText? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var searchedWord: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.meals_fragment, container, false)
-        mealRecyclerView = view.findViewById(R.id.meal_list)
+        mealRecyclerView = view.findViewById(R.id.mealList)
         searchMealEt = view?.findViewById(R.id.searchMealEt)
         swipeRefreshLayout = view?.findViewById(R.id.swipeContainer)
         setupRecyclerView()
@@ -69,19 +67,19 @@ class MealsFragment: Fragment(), MealController, ListItemHandler{
         }
     }
 
-    override fun onSuccess(data: MutableList<Meal>) {
+    override fun onSuccessRetrieveData(data: MutableList<Meal>) {
         mealListAdapter.update(data)
         swipeRefreshLayout?.isRefreshing = false
         hideProgress()
     }
 
-    override fun onError(message: String) {
+    override fun onErrorRetrieveData(message: String) {
         mealListAdapter.update(mutableListOf())
         swipeRefreshLayout?.isRefreshing = false
         hideProgress()
     }
 
-    override fun onItemClick(view: View, position: Int) {
+    override fun onItemPress(view: View, position: Int) {
         val detailActivity = Intent(context, MealDetailsActivity::class.java)
         detailActivity.putExtra("meal", mealListAdapter.dataset[position])
         startActivity(Intent(detailActivity))

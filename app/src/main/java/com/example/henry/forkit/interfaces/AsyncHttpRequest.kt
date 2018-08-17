@@ -3,7 +3,7 @@ package com.example.henry.forkit.interfaces
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.AsyncTask
-import com.example.henry.forkit.domain.Meal
+import com.example.henry.forkit.data.entity.Meal
 import com.example.henry.forkit.utils.Converter
 import org.json.JSONObject
 import java.io.InputStream

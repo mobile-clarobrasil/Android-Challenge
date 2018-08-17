@@ -1,11 +1,11 @@
 package com.example.henry.forkit.utils
 
-import com.example.henry.forkit.domain.Meal
+import com.example.henry.forkit.data.entity.Meal
 import org.json.JSONObject
 
 class Converter{
 
-    fun jsonToMeal(json: JSONObject): Meal{
+    fun jsonToMeal(json: JSONObject): Meal {
         val meal = Meal()
         meal.idMeal = json.getString("idMeal")
         meal.strMeal = json.getString("strMeal")

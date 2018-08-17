@@ -3,5 +3,8 @@ package com.example.henry.forkit.interfaces
 import android.view.View
 
 interface ListItemHandler {
-    fun onItemClick(view: View, position: Int)
+    fun onItemPress(view: View, position: Int)
+}
+interface ListItemLongPressHandler{
+    fun onItemLongPress(view: View?, position: Int)
 }
