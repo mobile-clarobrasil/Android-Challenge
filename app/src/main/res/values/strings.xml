@@ -5,4 +5,6 @@
     <string name="search">Search</string>
     <string name="ingredients">Ingredients:</string>
     <string name="instructions">Instructions:</string>
+    <string name="search_in_your_favorites">Search in your favorites...</string>
+    <string name="search_for_recipes">Search for recipes...</string>
 </resources>
