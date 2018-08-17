@@ -29,14 +29,14 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/meal_list"
+            android:id="@+id/mealList"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.v7.widget.CardView
@@ -79,7 +79,7 @@
                 android:backgroundTint="@color/colorIcons"
                 android:ems="10"
                 android:focusedByDefault="false"
-                android:hint="Search for recipes..."
+                android:hint="@string/search_for_recipes"
                 android:inputType="textPersonName"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
