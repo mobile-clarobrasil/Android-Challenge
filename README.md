@@ -1,6 +1,8 @@
 
 # Android Challenge
 
+[![CircleCI](https://circleci.com/gh/henrywm/Android-Challenge/tree/purest_way.svg?style=svg)](https://circleci.com/gh/henrywm/Android-Challenge/tree/purest_way) 
+
 [![N|Solid](https://jobs.i-hunter.com/claro/views/logo.php)](https://www.claro.com.br/)
 
 ### Instructions
