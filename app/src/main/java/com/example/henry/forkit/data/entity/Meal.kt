@@ -1,11 +1,16 @@
 package com.example.henry.forkit.data.entity
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
+@Entity(tableName = "meals")
 @Parcelize
 class Meal(
+        @PrimaryKey(autoGenerate = true)
+        var id: Int = 0,
         var idMeal: String = "",
         var strMeal: String = "",
         var strCategory: String = "",
