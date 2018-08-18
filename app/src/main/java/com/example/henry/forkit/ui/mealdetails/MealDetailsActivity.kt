@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.henry.forkit.R
 import com.example.henry.forkit.data.entity.Meal
 import com.example.henry.forkit.presentation.CheckExistDataController
@@ -36,7 +37,8 @@ class MealDetailsActivity: AppCompatActivity(),
         with(intent.extras) {
             meal = this?.get("meal") as Meal
 
-            mealThumb.load(meal.strMealThumb)
+            //mealThumb.load(meal.strMealThumb)
+            Glide.with(mealThumb).load(meal.strMealThumb)
             mealTitle.text = meal.strMeal
             mealArea.text = "${meal.strArea} Dish"
             mealCategory.text = "(${meal.strCategory})"

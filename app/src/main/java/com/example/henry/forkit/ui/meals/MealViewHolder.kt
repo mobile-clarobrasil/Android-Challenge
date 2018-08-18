@@ -2,6 +2,7 @@ package com.example.henry.forkit.ui.meals
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.bumptech.glide.Glide
 import com.example.henry.forkit.R
 import com.example.henry.forkit.data.entity.Meal
 import com.example.henry.forkit.interfaces.ListItemHandler
@@ -21,7 +22,8 @@ class MealViewHolder(val view: View, val itemHandler: ListItemHandler, val itemL
         itemView.mealItemTitle.text = meal.strMeal
         itemView.mealItemArea.text = "${meal.strArea} ${itemView.resources.getString(R.string.dish)}"
         itemView.mealItemCategory.text = "(${meal.strCategory})"
-        itemView.mealItemImage.load(meal.strMealThumb)
+        Glide.with(itemView.mealItemImage).load(meal.strMealThumb)
+        //itemView.mealItemImage.load(meal.strMealThumb)
     }
 
     override fun onClick(v: View?) = itemHandler.onItemPress(view, adapterPosition)
