@@ -1,8 +1,9 @@
-package com.example.henry.forkit
+package com.example.henry.forkit.ui.splash
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.henry.forkit.R
 import com.example.henry.forkit.ui.meals.MealActivity
 import kotlin.concurrent.thread
 
