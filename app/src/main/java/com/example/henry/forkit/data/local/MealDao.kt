@@ -9,7 +9,7 @@ interface MealDao{
     fun save(meal: Meal)
 
     @Query("SELECT * FROM meals ORDER BY id DESC")
-    fun all(): LiveData<List<Meal>>
+    fun all(): LiveData<MutableList<Meal>>
 
     @Query("SELECT * FROM meals WHERE idMeal = :idMeal")
     fun checkExist(idMeal: String): Meal

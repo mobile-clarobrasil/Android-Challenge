@@ -4,9 +4,9 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
-import com.example.henry.forkit.data.entity.MealResponse
+import com.example.henry.forkit.data.entity.Meal
 
-@Database(entities = [MealResponse::class], version = 1)
+@Database(entities = [Meal::class], version = 2)
 abstract class FavoriteMealsDatabase: RoomDatabase(){
 
     abstract val mealDao: MealDao
