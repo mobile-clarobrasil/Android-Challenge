@@ -2,53 +2,34 @@ package com.example.henry.forkit.presentation
 
 import android.content.Context
 import android.util.Log
-import com.example.henry.forkit.data.entity.Meal
+import com.example.henry.forkit.data.entity.MealResponse
 import com.example.henry.forkit.data.repository.MealRepository
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class MealPresenter(context: Context?, private val retrieveDataController: RetrieveDataController? = null,
+class MealPresenter(val context: Context?, private val retrieveDataController: RetrieveDataController? = null,
                     private val insertDataController: InsertDataController? = null,
                     private val checkExistDataContoller: CheckExistDataController? = null){
 
-    private var mealRepository: MealRepository = MealRepository(context)
+    private var mealRepository: MealRepository = MealRepository(context!!)
+
 
     fun searchMeals(search: String){
-        val response = mealRepository.searchMeals(search).execute()
-        if(response.isSuccessful){
-            val data = response.body()?.meals
-            if (data != null) {
-                retrieveDataController?.onSuccessRetrieveData(data)
-            }else{
-                retrieveDataController?.onErrorRetrieveData("no-results")
+        mealRepository.searchMeals(search).enqueue(object : Callback<MealResponse> {
+            override fun onResponse(call: Call<MealResponse>?, response: Response<MealResponse>?) {
+                if(response?.isSuccessful != null){
+                    val data = response.body()?.meals
+                    if (data != null) {
+                        retrieveDataController?.onSuccessRetrieveData(data)
+                    }else{
+                        retrieveDataController?.onErrorRetrieveData("no-results")
+                    }
+                }
             }
-        }
+            override fun onFailure(call: Call<MealResponse>?, t: Throwable?) {}
+        })
     }
 
-    fun saveMeal(meal: Meal){
-        val data = mealRepository.save(meal)
-        if(data != 0L){
-            insertDataController?.onSuccessSavedData(data)
-        }else{
-            insertDataController?.onErrorSavedData("error")
-        }
-    }
-
-    fun getMeals(){
-        val data = mealRepository.getMeals()
-        if(!data.isEmpty()){
-            retrieveDataController?.onSuccessRetrieveData(data)
-        }else{
-            retrieveDataController?.onErrorRetrieveData("no-results")
-        }
-    }
-
-    fun delete(meal: Meal) = mealRepository.deleteMeal(meal)
-
-    fun checkExist(idMeal: String){
-        if(mealRepository.checkExist(idMeal) == 1){
-            checkExistDataContoller?.onSuccessExistData()
-        }else{
-            checkExistDataContoller?.onErrorExistData()
-        }
-    }
 
 }

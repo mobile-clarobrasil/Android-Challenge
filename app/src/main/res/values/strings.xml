@@ -7,4 +7,7 @@
     <string name="instructions">Instructions:</string>
     <string name="search_in_your_favorites">Search in your favorites...</string>
     <string name="search_for_recipes">Search for recipes...</string>
+    <string name="you_don_t_have_favorite_yet">You don\'t have favorites yet!</string>
+    <string name="find_the_most_tasty_recipes_here">Find the most tasty recipes here!</string>
+    <string name="ops_no_recipes_were_found">Ops! No recipes were found!</string>
 </resources>

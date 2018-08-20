@@ -1,26 +1,21 @@
 package com.example.henry.forkit.ui.mealdetails
 
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.henry.forkit.R
 import com.example.henry.forkit.data.entity.Meal
-import com.example.henry.forkit.presentation.CheckExistDataController
-import com.example.henry.forkit.presentation.InsertDataController
-import com.example.henry.forkit.presentation.MealPresenter
+import com.example.henry.forkit.presentation.MealViewModel
 import com.example.henry.forkit.utils.hideOrSetIfEmpty
-import com.example.henry.forkit.utils.load
 import kotlinx.android.synthetic.main.activity_meal_details.*
 
-class MealDetailsActivity: AppCompatActivity(),
-        InsertDataController, CheckExistDataController{
+class MealDetailsActivity: AppCompatActivity() { /*InsertDataController, CheckExistDataController*/
     lateinit var meal: Meal
-    private val mealPresenter: MealPresenter by lazy {
-        MealPresenter(applicationContext, insertDataController = this, checkExistDataContoller = this)
+    private val mealViewModel: MealViewModel by lazy{
+        ViewModelProviders.of(this).get(MealViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,15 +25,16 @@ class MealDetailsActivity: AppCompatActivity(),
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         setupDetails()
-        mealPresenter.checkExist(meal.idMeal)
     }
 
     private fun setupDetails(){
         with(intent.extras) {
             meal = this?.get("meal") as Meal
+            if(mealViewModel.checkIfExist(meal.idMeal) != null){
+                favoriteAction.setImageResource(R.drawable.ic_star_white)
+            }
 
-            //mealThumb.load(meal.strMealThumb)
-            Glide.with(mealThumb).load(meal.strMealThumb)
+            Glide.with(this@MealDetailsActivity).load(meal.strMealThumb).into(mealThumb)
             mealTitle.text = meal.strMeal
             mealArea.text = "${meal.strArea} Dish"
             mealCategory.text = "(${meal.strCategory})"
@@ -107,17 +103,16 @@ class MealDetailsActivity: AppCompatActivity(),
         }
     }
 
-    fun makeFavorite(v: View) = mealPresenter.saveMeal(meal)
-    override fun onSuccessExistData() = favoriteAction.hide()
-    override fun onErrorExistData() = favoriteAction.show()
-    override fun onSuccessSavedData(result: Long) {
-        favoriteAction.setImageResource(R.drawable.ic_star_white)
-        Snackbar.make(favoriteAction, "Saved in your favorites!", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Ok", {}).show()
-    }
-    override fun onErrorSavedData(message: String) {
-        Snackbar.make(favoriteAction, "Something went wrong!", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Ok", {}).show()
+    fun makeFavorite(v: View) {
+        if(mealViewModel.checkIfExist(meal.idMeal) == null) {
+            mealViewModel.save(meal)
+            favoriteAction.setImageResource(R.drawable.ic_star_white)
+            Snackbar.make(favoriteAction, "Saved in your favorites!", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Ok", {}).show()
+        }else{
+            Snackbar.make(favoriteAction, "Already saved!", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Ok", {}).show()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

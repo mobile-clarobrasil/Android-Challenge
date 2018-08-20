@@ -1,6 +1,9 @@
 package com.example.henry.forkit.ui.favorites
 
 import android.app.AlertDialog
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -9,38 +12,37 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
 import com.example.henry.forkit.R
 import com.example.henry.forkit.data.entity.Meal
 import com.example.henry.forkit.interfaces.ListItemHandler
 import com.example.henry.forkit.interfaces.ListItemLongPressHandler
-import com.example.henry.forkit.presentation.MealPresenter
-import com.example.henry.forkit.presentation.RetrieveDataController
+import com.example.henry.forkit.presentation.MealViewModel
 import com.example.henry.forkit.ui.mealdetails.MealDetailsActivity
 import com.example.henry.forkit.ui.meals.MealListAdapter
+import kotlinx.android.synthetic.main.favorite_meal_fragment.*
 import kotlinx.android.synthetic.main.favorite_meal_fragment.view.*
 
-class FavoritesFragment: Fragment(), RetrieveDataController, ListItemHandler, ListItemLongPressHandler{
+class FavoritesFragment: Fragment(), ListItemHandler, ListItemLongPressHandler{
 
-    private val mealPresenter: MealPresenter by lazy { MealPresenter(context, this) }
     private val mealListAdapter: MealListAdapter by lazy { MealListAdapter(this, this) }
     private var mealRecyclerView: RecyclerView? = null
     private val ITEM_MENU_OPTIONS = arrayOf("Open Meal", "Delete Meal")
     private val ITEM_MENU_OPTION_OPEN = 0
     private val ITEM_MENU_OPTION_DELETE = 1
     private val favoriteMealFirstList: MutableList<Meal> = mutableListOf()
-
+    private val mealViewModel: MealViewModel by lazy {
+        ViewModelProviders.of(this).get(MealViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.favorite_meal_fragment, container, false)
-        mealPresenter.getMeals()
         mealRecyclerView = view.findViewById(R.id.favoriteMealsList)
-        setupRecyclerview()
-
+        setupRecyclerView()
+        observeFavoriteMeals()
         view.searchFavoriteMeal.addTextChangedListener(object : TextWatcher{
             var search: String? = ""
             override fun afterTextChanged(s: Editable?) {}
@@ -68,24 +70,29 @@ class FavoritesFragment: Fragment(), RetrieveDataController, ListItemHandler, Li
                 }
             }
         })
-
         return view
     }
 
     fun newInstance(): FavoritesFragment = FavoritesFragment()
 
-    private fun setupRecyclerview(){
-        mealRecyclerView?.layoutManager = GridLayoutManager(context, 2)
-        mealRecyclerView?.adapter = mealListAdapter
+    private fun observeFavoriteMeals(){
+        mealViewModel.allFavorites()?.observe(this, Observer {
+            val data = it?.toMutableList()
+            if(data != null){
+                mealListAdapter.update(data)
+                favoriteMealFirstList.addAll(data)
+                if(data.count() > 0){
+                    hideNoFavoritesInfo()
+                }else{
+                    showNoFavoritesInfo()
+                }
+            }
+        })
     }
 
-    override fun onSuccessRetrieveData(data: MutableList<Meal>) {
-        favoriteMealFirstList.addAll(data)
-        mealListAdapter.update(data)
-    }
-    override fun onErrorRetrieveData(message: String) {
-        TODO("SHOW TO USER THAT HE DOES NOT HAVE FAVORITES YET!")
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    private fun setupRecyclerView(){
+        mealRecyclerView?.layoutManager = GridLayoutManager(context, 2)
+        mealRecyclerView?.adapter = mealListAdapter
     }
 
     override fun onItemPress(view: View, position: Int) = openDetailActivity(position)
@@ -95,10 +102,7 @@ class FavoritesFragment: Fragment(), RetrieveDataController, ListItemHandler, Li
                 .setItems(ITEM_MENU_OPTIONS) { _: DialogInterface, item: Int ->
                     when(item){
                         ITEM_MENU_OPTION_OPEN -> openDetailActivity(position)
-                        ITEM_MENU_OPTION_DELETE -> {
-                            mealPresenter.delete(mealListAdapter.dataset[position])
-                            mealPresenter.getMeals()
-                        }
+                        ITEM_MENU_OPTION_DELETE -> mealViewModel.delete(mealListAdapter.dataset[position])
                     }
                 }.show()
     }
@@ -107,6 +111,14 @@ class FavoritesFragment: Fragment(), RetrieveDataController, ListItemHandler, Li
         val detailActivityIntent = Intent(context, MealDetailsActivity::class.java)
         detailActivityIntent.putExtra("meal", mealListAdapter.dataset[whichMeal])
         startActivity(detailActivityIntent)
+    }
+    private fun hideNoFavoritesInfo(){
+        noFavoritesMessage.visibility = View.GONE
+        noFavoritesImage.visibility = View.GONE
+    }
+    private fun showNoFavoritesInfo() {
+        noFavoritesMessage.visibility = View.VISIBLE
+        noFavoritesImage.visibility = View.VISIBLE
     }
 
 }
