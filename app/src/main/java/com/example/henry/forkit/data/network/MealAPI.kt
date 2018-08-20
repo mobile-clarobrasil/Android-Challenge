@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MealAPI{
-    val mealService: MealService
+    private val mealService: MealService
 
     init {
         val gson = GsonBuilder().setLenient().create()
