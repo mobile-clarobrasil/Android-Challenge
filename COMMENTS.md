@@ -1,0 +1,4 @@
+- Explain architecture chosen.
+- List of used libraries.
+- What would you improve if you had more time?
+- List of delivered,not delivered and why.
